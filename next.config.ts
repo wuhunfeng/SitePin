@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         hostname: 'urlscan.io',
         pathname: '/liveshot/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'pic.906051999.xyz',
+        pathname: '/**',
+      },
     ],
   },
 };
