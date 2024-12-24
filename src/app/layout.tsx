@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SitePin",
+  title: "SitePin | 站集",
   description: "陈列常用网站，如个人站点、收藏夹等，卡片式布局，显示网站状态和描述",
 };
 

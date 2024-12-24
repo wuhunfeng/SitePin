@@ -31,7 +31,7 @@ const getStatusText = (status: number) => {
   return (
     <Dialog isOpen={isOpen} onClose={onClose}>
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-medium flex items-center gap-2">
+        <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
           {monitor.friendly_name}
         </h2>
         <button 
@@ -47,29 +47,44 @@ const getStatusText = (status: number) => {
 
       <div className="space-y-4">
 
-        <div className="flex items-center gap-3 text-gray-600">
-          <CheckCircleIcon className="w-5 h-5" />
-          <span>Status: {getStatusText(monitor.status)}</span>
+        <div className="flex items-center gap-3">
+          <CheckCircleIcon className="w-5 h-5 text-gray-500" />
+          <div>
+            <span className="text-sm font-medium text-gray-700">Status</span>
+            <p className="text-base text-gray-900">{getStatusText(monitor.status)}</p>
+          </div>
         </div>
 
-        <div className="flex items-center gap-3 text-gray-600">
-          <ClockIcon className="w-5 h-5" />
-          <span>Response Time: {monitor.average_response_time ? `${monitor.average_response_time}ms` : 'N/A'}</span>
+        <div className="flex items-center gap-3">
+          <ClockIcon className="w-5 h-5 text-gray-500" />
+          <div>
+            <span className="text-sm font-medium text-gray-700">Response Time</span>
+            <p className="text-base text-gray-900">{monitor.average_response_time ? `${monitor.average_response_time}ms` : 'N/A'}</p>
+          </div>
         </div>
 
-        <div className="flex items-center gap-3 text-gray-600">
-          <GlobeAltIcon className="w-5 h-5" />
-          <span>URL: {monitor.url}</span>
+        <div className="flex items-center gap-3">
+          <GlobeAltIcon className="w-5 h-5 text-gray-500" />
+          <div>
+            <span className="text-sm font-medium text-gray-700">URL</span>
+            <p className="text-base text-gray-900">{monitor.url}</p>
+          </div>
         </div>
 
-        <div className="flex items-center gap-3 text-gray-600">
-          <CalendarIcon className="w-5 h-5" />
-          <span>Created: {new Date(monitor.create_datetime * 1000).toLocaleString()}</span>
+        <div className="flex items-center gap-3">
+          <CalendarIcon className="w-5 h-5 text-gray-500" />
+          <div>
+            <span className="text-sm font-medium text-gray-700">Created</span>
+            <p className="text-base text-gray-900">{new Date(monitor.create_datetime * 1000).toLocaleString()}</p>
+          </div>
         </div>
 
-        <div className="flex items-center gap-3 text-gray-600">
-          <CalendarDateRangeIcon className="w-5 h-5" />
-          <span>Last Updated: {formatDistanceToNow(new Date(monitor.lastUpdated), { addSuffix: true })}</span>
+        <div className="flex items-center gap-3">
+          <CalendarDateRangeIcon className="w-5 h-5 text-gray-500" />
+          <div>
+            <span className="text-sm font-medium text-gray-700">Last Updated</span>
+            <p className="text-base text-gray-900">{formatDistanceToNow(new Date(monitor.lastUpdated), { addSuffix: true })}</p>
+          </div>
         </div>
 
       </div>

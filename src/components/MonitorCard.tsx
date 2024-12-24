@@ -15,6 +15,17 @@ interface Props {
   site: Site;
 }
 
+export function MonitorCardSkeleton() {
+  return (
+    <div className="fluent-card rounded-xl p-6 aspect-square">
+      <div className="space-y-4">
+        <div className="h-6 bg-gray-200 rounded w-3/4 animate-pulse" />
+        <div className="relative aspect-[4/3] rounded-xl bg-gray-200 animate-pulse" />
+      </div>
+    </div>
+  );
+}
+
 export default function MonitorCard({ monitor, site }: Props) {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [isStatusOpen, setIsStatusOpen] = useState(false);
@@ -31,15 +42,13 @@ export default function MonitorCard({ monitor, site }: Props) {
   return (
     <>
       <div 
-        className="bg-white/30 backdrop-blur-xl border border-white/20 rounded-xl p-6 
+        className="fluent-card backdrop-blur-sm rounded-xl p-6 
         aspect-square flex flex-col justify-between relative overflow-hidden
-        shadow-[0_0_15px_rgba(0,0,0,0.05)] hover:shadow-[0_0_20px_rgba(0,0,0,0.1)]
-        hover:bg-white/40 transition-all duration-300 ease-out
-        before:content-[''] before:absolute before:inset-0 
-        before:bg-gradient-to-b before:from-white/5 before:to-transparent before:rounded-xl"
+        cursor-pointer hover:shadow-lg hover:shadow-indigo-500/10
+        border border-white/40 bg-gradient-to-br from-white/80 to-white/60"
         onClick={() => setIsDetailsOpen(true)}
       >
-                <button 
+        <button 
           onClick={(e) => {
             e.stopPropagation();
             setIsStatusOpen(true);
@@ -56,18 +65,21 @@ export default function MonitorCard({ monitor, site }: Props) {
           <a href={site.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center gap-1.5 font-medium text-gray-800/90 
-            hover:text-gray-900 transition-colors truncate"
+            className="group flex items-center gap-1.5 
+            font-semibold text-gray-900/90 text-lg
+            hover:text-gray-900 transition-colors truncate
+            drop-shadow-sm"
           >
             <span className="truncate">{site.name}</span>
-            <ArrowTopRightOnSquareIcon className="w-3.5 h-3.5 opacity-0 shrink-0
+            <ArrowTopRightOnSquareIcon className="w-4 h-4 opacity-0 shrink-0
             group-hover:opacity-100 transition-opacity" />
           </a>
           
-          <div className="relative overflow-hidden rounded-xl group aspect-[4/3] bg-gray-50/50
+          <div className="relative overflow-hidden rounded-xl group aspect-[4/3] 
+            bg-gradient-to-br from-gray-50/80 to-white/80
             shadow-[inset_0_0_1px_rgba(0,0,0,0.1),0_2px_4px_rgba(0,0,0,0.05)]
-            hover:shadow-[inset_0_0_1px_rgba(0,0,0,0.15),0_4px_8px_rgba(0,0,0,0.1)]
-            transition-shadow duration-300">
+            hover:shadow-[inset_0_0_1px_rgba(0,0,0,0.15),0_8px_16px_rgba(0,0,0,0.1)]
+            transition-all duration-300">
             <div className="absolute inset-0 shadow-[inset_0_1px_2px_rgba(255,255,255,0.5)]" />
             <Image 
               src={site.screenshot} 

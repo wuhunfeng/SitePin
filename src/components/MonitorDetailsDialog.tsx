@@ -4,6 +4,7 @@ import { XMarkIcon, PhotoIcon, ArrowTopRightOnSquareIcon } from '@heroicons/reac
 import { Site } from '@/types/site';
 import Image from 'next/image';
 import { useState } from 'react';
+import { SITE_TYPES } from '@/constants/site';
 
 export default function MonitorDetailsDialog({ isOpen, onClose, monitor, site }: {
   isOpen: boolean;
@@ -18,14 +19,14 @@ export default function MonitorDetailsDialog({ isOpen, onClose, monitor, site }:
       <Dialog isOpen={isOpen} onClose={onClose}>
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center gap-3">
-            <h2 className="text-xl font-medium">{site.name}</h2>
+            <h2 className="text-xl font-semibold text-gray-900">{site.name}</h2>
             <a
               href={site.url}
               target="_blank"
               rel="noopener noreferrer"
               className="p-1.5 hover:bg-zinc-100 rounded-full transition-colors"
             >
-              <ArrowTopRightOnSquareIcon className="w-5 h-5 text-gray-600" />
+              <ArrowTopRightOnSquareIcon className="w-5 h-5 text-gray-500" />
             </a>
           </div>
           <button 
@@ -37,42 +38,57 @@ export default function MonitorDetailsDialog({ isOpen, onClose, monitor, site }:
           </button>
         </div>
         
-        <div className="space-y-6">
+        <div className="space-y-8">
           {/* 网站截图 */}
-          <div className="bg-gray-100 rounded-lg overflow-hidden">
-            {site.screenshot ? (
-              <Image
-                src={site.screenshot}
-                alt={site.name}
-                width={1920}
-                height={1080}
-                className="max-w-full h-auto cursor-zoom-in"
-                unoptimized
-                onClick={() => setIsImageOpen(true)}
-              />
-            ) : (
-              <div className="aspect-video w-full flex items-center justify-center">
-                <PhotoIcon className="w-12 h-12 text-gray-400" />
-              </div>
-            )}
+          <div>
+            <h3 className="text-base font-semibold text-gray-800 mb-3">网站截图</h3>
+            <div className="bg-gray-50 rounded-lg overflow-hidden">
+              {site.screenshot ? (
+                <Image
+                  src={site.screenshot}
+                  alt={site.name}
+                  width={1920}
+                  height={1080}
+                  className="max-w-full h-auto cursor-zoom-in"
+                  unoptimized
+                  onClick={() => setIsImageOpen(true)}
+                />
+              ) : (
+                <div className="aspect-video w-full flex items-center justify-center">
+                  <PhotoIcon className="w-12 h-12 text-gray-400" />
+                </div>
+              )}
+            </div>
           </div>
 
           {/* 网站介绍 */}
           <div>
-            <h3 className="text-lg font-medium mb-2">网站介绍</h3>
-            <p className="text-gray-600">
+            <h3 className="text-base font-semibold text-gray-800 mb-3">网站介绍</h3>
+            <p className="text-gray-700">
               {site.description || '暂无介绍'}
             </p>
           </div>
 
           {/* 网站信息 */}
           <div>
-            <h3 className="text-lg font-medium mb-2">网站信息</h3>
-            <div className="bg-gray-50 rounded-lg p-4 space-y-2">
-              <p className="text-sm text-gray-600">网址：{site.url}</p>
-              <p className="text-sm text-gray-600">类型：{site.type}</p>
-              <p className="text-sm text-gray-600">标签：{site.tags.join(', ')}</p>
-              <p className="text-sm text-gray-600">创建时间：{new Date(site.createdAt).toLocaleString()}</p>
+            <h3 className="text-base font-semibold text-gray-800 mb-3">网站信息</h3>
+            <div className="bg-gray-50 rounded-lg p-4 space-y-3">
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-gray-600">网址</span>
+                <span className="text-gray-900">{site.url}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-gray-600">类型</span>
+                <span className="text-gray-900">{SITE_TYPES.find(type => type.value === site.type)?.label || '未知'}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-gray-600">标签</span>
+                <span className="text-gray-900">{site.tags.join(', ')}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-gray-600">创建时间</span>
+                <span className="text-gray-900">{new Date(site.createdAt).toLocaleString()}</span>
+              </div>
             </div>
           </div>
         </div>
