@@ -1,17 +1,27 @@
 import React, { useState } from 'react';
 
-export function Dialog({ 
-  isOpen, 
-  onClose, 
-  children 
-}: { 
+interface Props {
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
-}) {
+  hasChanges?: boolean;
+}
+
+export function Dialog({ 
+  isOpen, 
+  onClose, 
+  children,
+  hasChanges = false
+}: Props) {
   const [isClosing, setIsClosing] = useState(false);
 
   const handleClose = () => {
+    if (hasChanges) {
+      if (!confirm('有未保存的更改，确定要关闭吗？')) {
+        return;
+      }
+    }
+    
     setIsClosing(true);
     setTimeout(() => {
       onClose();

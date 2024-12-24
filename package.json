@@ -13,6 +13,7 @@
     "@heroicons/react": "^2.2.0",
     "date-fns": "^4.1.0",
     "idb": "^8.0.1",
+    "mongodb": "^6.12.0",
     "next": "15.1.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
