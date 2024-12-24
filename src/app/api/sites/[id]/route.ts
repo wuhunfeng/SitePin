@@ -31,7 +31,7 @@ export async function DELETE(
 export async function PUT(
   request: Request,
   { params }: { params: { id: string } }
-) {
+): Promise<Response> {
   try {
     const body = await request.json();
     
