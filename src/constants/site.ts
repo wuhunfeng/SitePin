@@ -4,8 +4,8 @@ export const PRESET_TAGS = [
 ];
 
 export const SITE_TYPES = [
-  { value: 'personal', label: '个人站点' },
   { value: 'project', label: '独立项目' },
+  { value: 'personal', label: '个人站点' },
   { value: 'blog', label: '博客' },
   { value: 'tool', label: '工具' },
   { value: 'community', label: '社区' },
