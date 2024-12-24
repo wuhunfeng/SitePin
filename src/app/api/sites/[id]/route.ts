@@ -1,19 +1,19 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 import { MongoClient, ObjectId } from 'mongodb';
 
 const uri = process.env.MONGODB_URI!;
 const client = new MongoClient(uri);
 
 export async function DELETE(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+  request: NextRequest,
+  context: { params: { id: string } }
+): Promise<Response> {
   try {
     await client.connect();
     const db = client.db('sitepin');
     
     await db.collection('sites').deleteOne({
-      _id: new ObjectId(params.id)
+      _id: new ObjectId(context.params.id)
     });
     
     return NextResponse.json({ success: true });
@@ -29,8 +29,8 @@ export async function DELETE(
 }
 
 export async function PUT(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
+  context: { params: { id: string } }
 ): Promise<Response> {
   try {
     const body = await request.json();
@@ -39,7 +39,7 @@ export async function PUT(
     const db = client.db('sitepin');
     
     await db.collection('sites').updateOne(
-      { _id: new ObjectId(params.id) },
+      { _id: new ObjectId(context.params.id) },
       { $set: body }
     );
     
@@ -53,4 +53,4 @@ export async function PUT(
   } finally {
     await client.close();
   }
-} 
+}
