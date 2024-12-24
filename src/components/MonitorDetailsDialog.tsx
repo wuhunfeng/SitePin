@@ -1,15 +1,13 @@
 import { Dialog } from './Dialog';
-import { StoredMonitor } from '@/lib/db';
 import { XMarkIcon, PhotoIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 import { Site } from '@/types/site';
 import Image from 'next/image';
 import { useState } from 'react';
 import { SITE_TYPES } from '@/constants/site';
 
-export default function MonitorDetailsDialog({ isOpen, onClose, monitor, site }: {
+export default function MonitorDetailsDialog({ isOpen, onClose, site }: {
   isOpen: boolean;
   onClose: () => void;
-  monitor: StoredMonitor;
   site: Site;
 }) {
   const [isImageOpen, setIsImageOpen] = useState(false);

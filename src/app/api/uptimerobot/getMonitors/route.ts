@@ -17,6 +17,7 @@ export async function GET() {
     console.log("uptimerobot getMonitors success", );
     return NextResponse.json(data);
   } catch (error) {
+    console.error("uptimerobot getMonitors error", error);
     return NextResponse.json(
       { error: 'Failed to fetch monitors' },
       { status: 500 }

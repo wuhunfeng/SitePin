@@ -32,7 +32,7 @@ const getStatusText = (status: number) => {
     <Dialog isOpen={isOpen} onClose={onClose}>
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
-          {monitor.friendly_name}
+          {monitor.friendly_name || "N/A"}
         </h2>
         <button 
           onClick={onClose}

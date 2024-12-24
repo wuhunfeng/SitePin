@@ -110,13 +110,9 @@ export default function SiteTable({ onEdit }: Props) {
                 </div>
               </td>
               <td className="px-6 py-4">
-                {site.screenshot && (
-                  <img 
-                    src={site.screenshot} 
-                    alt={site.name}
-                    className="h-16 w-24 object-cover rounded"
-                  />
-                )}
+                <a href={site.screenshot} target="_blank" rel="noopener noreferrer" className="text-sm text-blue-500 hover:text-blue-700">
+                  {site.screenshot}
+                </a>
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
                 <div className="text-sm text-gray-500">

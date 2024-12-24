@@ -5,6 +5,7 @@ import { StoredMonitor } from '@/lib/db';
 import { Site } from '@/types/site';
 import { 
   ArrowTopRightOnSquareIcon, 
+  PhotoIcon,
 } from '@heroicons/react/24/outline';
 import MonitorStatusDialog from './MonitorStatusDialog';
 import MonitorDetailsDialog from './MonitorDetailsDialog';
@@ -81,14 +82,21 @@ export default function MonitorCard({ monitor, site }: Props) {
             hover:shadow-[inset_0_0_1px_rgba(0,0,0,0.15),0_8px_16px_rgba(0,0,0,0.1)]
             transition-all duration-300">
             <div className="absolute inset-0 shadow-[inset_0_1px_2px_rgba(255,255,255,0.5)]" />
-            <Image 
-              src={site.screenshot} 
-              alt={site.name} 
-              fill
-              className="object-cover transition-transform duration-500
-              group-hover:scale-105"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            />
+
+            {site.screenshot ? (
+  <Image 
+    src={site.screenshot} 
+    alt={site.name} 
+    fill
+    className="object-cover transition-transform duration-500
+    group-hover:scale-105"
+    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+  />
+) : (
+  <div className="absolute inset-0 flex items-center justify-center bg-gray-50">
+                <PhotoIcon className="w-12 h-12 text-gray-400" />
+              </div>
+            )}
           </div>
 
 
@@ -97,16 +105,18 @@ export default function MonitorCard({ monitor, site }: Props) {
 
       </div>
 
-      <MonitorStatusDialog 
-        isOpen={isStatusOpen}
-        onClose={() => setIsStatusOpen(false)}
-        monitor={monitor}
-      />
+      {monitor && (
+        <MonitorStatusDialog 
+          isOpen={isStatusOpen}
+          onClose={() => setIsStatusOpen(false)}
+          monitor={monitor}
+        />
+      )}
+
 
       <MonitorDetailsDialog
         isOpen={isDetailsOpen}
         onClose={() => setIsDetailsOpen(false)}
-        monitor={monitor}
         site={site}
       />
     </>
