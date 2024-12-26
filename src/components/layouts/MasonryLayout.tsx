@@ -78,6 +78,9 @@ export default function MasonryLayout({ sites, monitors }: Props) {
                       alt={site.name}
                       width={800}
                       height={600}
+                    //   loading="lazy"
+                      placeholder="blur"
+                      blurDataURL={site.screenshot}
                       className="w-full h-auto"
                     />
                   </div>

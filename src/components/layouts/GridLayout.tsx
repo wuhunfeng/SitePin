@@ -29,6 +29,7 @@ export default function GridLayout({ sites, monitors }: Props) {
     }
   };
 
+
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
@@ -93,6 +94,9 @@ export default function GridLayout({ sites, monitors }: Props) {
                       src={site.screenshot} 
                       alt={site.name} 
                       fill
+                    //   loading="lazy"
+                      placeholder="blur"
+                      blurDataURL={site.screenshot}
                       className="object-cover transition-transform duration-500
                       group-hover:scale-105"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

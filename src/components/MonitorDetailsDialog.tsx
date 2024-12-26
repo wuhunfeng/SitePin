@@ -1,18 +1,17 @@
 import { Dialog } from './Dialog';
 import { XMarkIcon, PhotoIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 import { Site } from '@/types/site';
-import Image from 'next/image';
-import { useState } from 'react';
+import NextImage from 'next/image';
 import { SITE_TYPES } from '@/constants/site';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
+import PhotoSwipe from 'photoswipe';
+import 'photoswipe/style.css';
 
 export default function MonitorDetailsDialog({ isOpen, onClose, site }: {
   isOpen: boolean;
   onClose: () => void;
   site: Site;
 }) {
-  const [isImageOpen, setIsImageOpen] = useState(false);
-
   const contentVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { 
@@ -77,14 +76,53 @@ export default function MonitorDetailsDialog({ isOpen, onClose, site }: {
               className="bg-gray-50 rounded-lg overflow-hidden"
             >
               {site.screenshot ? (
-                <Image
+                <NextImage
                   src={site.screenshot}
                   alt={site.name}
                   width={1920}
                   height={1080}
+                  // loading="lazy"
+                  placeholder="blur"
+                  blurDataURL={site.screenshot}
                   className="max-w-full h-auto cursor-zoom-in"
                   unoptimized
-                  onClick={() => setIsImageOpen(true)}
+                  onClick={() => {
+                    // 获取原始图片尺寸
+                    const img = new Image();
+                    img.src = site.screenshot || '';
+                    
+                    img.onload = () => {
+                      const screenWidth = window.innerWidth;
+                      const screenHeight = window.innerHeight;
+                      const imageRatio = img.width / img.height;
+                      
+                      // 计算适配屏幕的尺寸
+                      let w = img.width;
+                      let h = img.height;
+                      
+                      if (w > screenWidth * 0.9) {
+                        w = screenWidth * 0.9;
+                        h = w / imageRatio;
+                      }
+                      
+                      if (h > screenHeight * 0.9) {
+                        h = screenHeight * 0.9;
+                        w = h * imageRatio;
+                      }
+
+                      const pswp = new PhotoSwipe({
+                        dataSource: [{
+                          src: site.screenshot || '',
+                          w: Math.round(w),
+                          h: Math.round(h),
+                          alt: site.name
+                        }],
+                        showHideAnimationType: 'fade',
+                        pswpModule: () => import('photoswipe')
+                      });
+                      pswp.init();
+                    };
+                  }}
                 />
               ) : (
                 <div className="aspect-video w-full flex items-center justify-center">
@@ -127,47 +165,6 @@ export default function MonitorDetailsDialog({ isOpen, onClose, site }: {
           </motion.div>
         </div>
       </motion.div>
-
-      <AnimatePresence>
-        {isImageOpen && site.screenshot && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center"
-            onClick={() => setIsImageOpen(false)}
-          >
-            <motion.button 
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              className="absolute top-4 right-4 text-white p-2 hover:bg-white/10 rounded-full"
-              onClick={() => setIsImageOpen(false)}
-            >
-              <XMarkIcon className="w-6 h-6" />
-            </motion.button>
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            >
-              <Image
-                src={site.screenshot}
-                alt={site.name}
-                width={1920}
-                height={1080}
-                className="max-w-[90vw] max-h-[90vh] object-contain"
-                unoptimized
-                onClick={(e) => e.stopPropagation()}
-              />
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </Dialog>
   );
 } 

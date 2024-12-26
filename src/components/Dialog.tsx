@@ -17,12 +17,15 @@ export function Dialog({
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
+      document.body.style.touchAction = 'none';
     } else {
       document.body.style.overflow = 'unset';
+      document.body.style.touchAction = 'auto';
     }
 
     return () => {
       document.body.style.overflow = 'unset';
+      document.body.style.touchAction = 'auto';
     };
   }, [isOpen]);
 
@@ -41,7 +44,7 @@ export function Dialog({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="fixed inset-0 bg-black/20 backdrop-blur-lg flex items-center justify-center z-50"
+          className="fixed inset-0 bg-black/20 backdrop-blur-lg flex items-center justify-center z-50 overscroll-none touch-none"
           onClick={handleClose}
         >
           <motion.div 
@@ -61,7 +64,7 @@ export function Dialog({
               ease: [0.32, 0.72, 0, 1]
             }}
             className="bg-white/80 backdrop-blur-xl border border-white/20 rounded-xl 
-              p-8 max-w-lg w-full mx-4 shadow-xl"
+              p-8 max-w-lg w-full mx-4 shadow-xl overscroll-none touch-none"
             onClick={e => e.stopPropagation()}
           >
             {children}

@@ -39,6 +39,9 @@ export default function ListLayout({ sites, monitors }: Props) {
                     alt={site.name}
                     width={128}
                     height={128}
+                    // loading="lazy"
+                    placeholder="blur"
+                    blurDataURL={site.screenshot}
                     className="w-full h-full object-cover"
                   />
                 )}

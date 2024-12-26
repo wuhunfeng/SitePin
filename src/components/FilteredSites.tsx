@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Site } from '@/types/site';
 import { StoredMonitor } from '@/lib/db';
-import { SITE_TYPES, PRESET_TAGS } from '@/constants/site';
+import { SITE_TYPES } from '@/constants/site';
 import { motion } from 'framer-motion';
 import GridLayout from './layouts/GridLayout';
 import ListLayout from './layouts/ListLayout';

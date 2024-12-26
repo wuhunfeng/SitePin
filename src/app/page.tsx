@@ -3,13 +3,8 @@
 import { useEffect, useState } from 'react';
 import { useMonitors } from '@/hooks/useMonitors';
 import { Site } from '@/types/site';
-import { SITE_TYPES, PRESET_TAGS } from '@/constants/site';
-import GridLayout from '@/components/layouts/GridLayout';
-import ListLayout from '@/components/layouts/ListLayout';
-import LayoutSwitcher from '@/components/LayoutSwitcher';
-import MasonryLayout from '@/components/layouts/MasonryLayout';
 import { useLayout } from '@/hooks/useLayout';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import FilteredSites from '@/components/FilteredSites';
 
 function Header() {
