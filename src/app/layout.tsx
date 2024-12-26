@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "SitePin | 站集",
-  description: "陈列常用网站，如个人站点、收藏夹等，卡片式布局，显示网站状态和描述",
+  description: "一个优雅的网站导航工具，以卡片形式展示收藏的网站，并实时显示站点状态",
 };
 
 export default function RootLayout({

@@ -2,15 +2,21 @@
 
 import { useEffect, useState } from 'react';
 import { useMonitors } from '@/hooks/useMonitors';
-import MonitorCard, { MonitorCardSkeleton } from '@/components/MonitorCard';
 import { Site } from '@/types/site';
 import { SITE_TYPES } from '@/constants/site';
+import GridLayout from '@/components/layouts/GridLayout';
+import ListLayout from '@/components/layouts/ListLayout';
+import LayoutSwitcher from '@/components/LayoutSwitcher';
+import MasonryLayout from '@/components/layouts/MasonryLayout';
+import { useLayout } from '@/hooks/useLayout';
+
 
 export default function Home() {
   const { monitors, loading: monitorsLoading } = useMonitors();
   const [sites, setSites] = useState<Site[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeType, setActiveType] = useState(SITE_TYPES[0].value);
+  const [layout, setLayout] = useLayout();
 
   useEffect(() => {
     const fetchSites = async () => {
@@ -27,6 +33,17 @@ export default function Home() {
 
     fetchSites();
   }, []);
+
+  function MonitorCardSkeleton() {
+    return (
+      <div className="fluent-card rounded-xl p-6 aspect-square">
+        <div className="space-y-4">
+          <div className="h-6 bg-gray-200 rounded w-3/4 animate-pulse" />
+          <div className="relative aspect-[4/3] rounded-xl bg-gray-200 animate-pulse" />
+        </div>
+      </div>
+    );
+  }
 
   if (loading || monitorsLoading) return (
     <main className="min-h-screen bg-gradient-to-br to-indigo-50">
@@ -74,6 +91,8 @@ export default function Home() {
     </main>
   );
 
+  const filteredSites = sites.filter(site => site.type === activeType);
+
   return (
     <main className="min-h-screen bg-gradient-to-br to-indigo-50">
       <div className="subtle-pattern">
@@ -110,9 +129,8 @@ export default function Home() {
             </div>
           </div>
 
-          {/* 移动端类型选择器 */}
-          <div className="md:hidden mb-6 overflow-x-auto">
-            <div className="flex gap-2 pb-2">
+          <div className="flex justify-between items-center mb-8">
+            <div className="flex gap-2 overflow-x-auto pb-2">
               {SITE_TYPES.map(type => {
                 const typeSites = sites.filter(site => site.type === type.value);
                 if (typeSites.length === 0) return null;
@@ -125,65 +143,28 @@ export default function Home() {
                       backdrop-blur-sm border border-white/20
                       ${activeType === type.value 
                         ? 'bg-white/80 text-gray-900 shadow-lg scale-105 font-medium' 
-                        : 'bg-white/30 text-gray-600 hover:bg-white/50 hover:shadow-md hover:scale-102'}`}
+                        : 'bg-white/30 text-gray-600 hover:bg-white/50'}`}
                   >
                     {type.label}
                   </button>
                 );
               })}
             </div>
+
+            <LayoutSwitcher layout={layout} onChange={setLayout} />
           </div>
 
-          {/* 移动端内容 */}
-          <div className="md:hidden">
-            {SITE_TYPES.map(type => {
-              if (type.value !== activeType) return null;
-              const typeSites = sites.filter(site => site.type === type.value);
-              if (typeSites.length === 0) return null;
-
-              return (
-                <div key={type.value} className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                  {typeSites.map((site) => (
-                    <MonitorCard 
-                      key={site._id}
-                      site={site}
-                      monitor={monitors.find(m => 
-                        new URL(m.url).hostname === new URL(site.url).hostname
-                      )}
-                    />
-                  ))}
-                </div>
-              );
-            })}
-          </div>
-
-          {/* 桌面端内容 */}
-          <div className="hidden md:block">
-            {SITE_TYPES.map(type => {
-              const typeSites = sites.filter(site => site.type === type.value);
-              if (typeSites.length === 0) return null;
-              
-              return (
-                <div key={type.value} className="mb-12">
-                  <h2 className="text-2xl font-bold text-gray-800 mb-6">
-                    {type.label}
-                  </h2>
-                  <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                    {typeSites.map((site) => (
-                      <MonitorCard 
-                        key={site._id}
-                        site={site}
-                        monitor={monitors.find(m => 
-                          new URL(m.url).hostname === new URL(site.url).hostname
-                        )}
-                      />
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
+          {layout === 'grid' && (
+            <GridLayout sites={filteredSites} monitors={monitors} />
+          )}
+          
+          {layout === 'list' && (
+            <ListLayout sites={filteredSites} monitors={monitors} />
+          )}
+          
+          {layout === 'masonry' && (
+            <MasonryLayout sites={filteredSites} monitors={monitors} />
+          )}
         </div>
       </div>
     </main>
