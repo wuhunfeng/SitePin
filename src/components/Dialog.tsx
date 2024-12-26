@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface Props {
   isOpen: boolean;
@@ -13,8 +14,6 @@ export function Dialog({
   children,
   hasChanges = false
 }: Props) {
-  const [isClosing, setIsClosing] = useState(false);
-
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -28,37 +27,47 @@ export function Dialog({
   }, [isOpen]);
 
   const handleClose = () => {
-    if (hasChanges) {
-      if (!confirm('有未保存的更改，确定要关闭吗？')) {
-        return;
-      }
+    if (hasChanges && !confirm('有未保存的更改，确定要关闭吗？')) {
+      return;
     }
-    
-    setIsClosing(true);
-    setTimeout(() => {
-      onClose();
-      setIsClosing(false);
-    }, 300);
+    onClose();
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div 
-      className={`fixed inset-0 bg-black/20 backdrop-blur-lg flex items-center justify-center z-50
-      ${isClosing ? 'animate-out fade-out duration-300' : 'animate-in fade-in duration-300'}`}
-      onClick={handleClose}
-    >
-      <div 
-        className={`bg-white/80 backdrop-blur-xl border border-white/20 rounded-xl 
-        p-8 max-w-lg w-full mx-4 shadow-xl 
-        ${isClosing ? 
-          'animate-out fade-out zoom-out-95 slide-out-to-bottom-4 duration-300' : 
-          'animate-in fade-in zoom-in-95 slide-in-from-bottom-4 duration-300'}`}
-        onClick={e => e.stopPropagation()}
-      >
-        {children}
-      </div>
-    </div>
+    <AnimatePresence mode="wait">
+      {isOpen && (
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          className="fixed inset-0 bg-black/20 backdrop-blur-lg flex items-center justify-center z-50"
+          onClick={handleClose}
+        >
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ 
+              opacity: 0, 
+              scale: 0.95, 
+              y: 10,
+              transition: {
+                duration: 0.15,
+                ease: [0.32, 0.72, 0, 1]
+              }
+            }}
+            transition={{ 
+              duration: 0.2,
+              ease: [0.32, 0.72, 0, 1]
+            }}
+            className="bg-white/80 backdrop-blur-xl border border-white/20 rounded-xl 
+              p-8 max-w-lg w-full mx-4 shadow-xl"
+            onClick={e => e.stopPropagation()}
+          >
+            {children}
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 } 

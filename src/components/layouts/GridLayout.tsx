@@ -42,7 +42,7 @@ export default function GridLayout({ sites, monitors }: Props) {
               key={site._id}
               className="fluent-card backdrop-blur-sm rounded-xl p-6 
               aspect-square flex flex-col justify-between relative overflow-hidden
-              cursor-pointer hover:shadow-lg hover:shadow-indigo-500/10
+              cursor-pointer hover:shadow-lg hover:shadow-black/10
               border border-white/40 bg-gradient-to-br from-white/80 to-white/60"
               onClick={() => setSelectedSite(site)}
             >

@@ -8,8 +8,8 @@
   --surface: rgba(255, 255, 255, 0.8);
   --surface-hover: rgba(255, 255, 255, 0.95);
   --border: rgba(0, 0, 0, 0.1);
-  --primary: rgba(33, 150, 243, 0.9);
-  --primary-hover: rgba(33, 150, 243, 1);
+  --primary: rgba(100, 103, 105, 0.9);
+  --primary-hover: rgb(121, 121, 121);
   --text-secondary: rgba(0, 0, 0, 0.6);
   --shadow: rgba(0, 0, 0, 0.05);
 }
@@ -64,33 +64,10 @@ body {
 .masonry-grid {
   display: flex;
   width: auto;
-  margin-left: -2rem; /* 调整列间距 */
+  margin-left: -2rem;
 }
 
 .masonry-grid_column {
-  padding-left: 2rem; /* 调整列间距 */
+  padding-left: 2rem;
   background-clip: padding-box;
 }
-
-/* 添加渐变动画 */
-.masonry-grid_column > div {
-  opacity: 0;
-  animation: fadeIn 0.5s ease forwards;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* 为不同列添加不同的动画延迟 */
-.masonry-grid_column:nth-child(1) > div { animation-delay: 0s; }
-.masonry-grid_column:nth-child(2) > div { animation-delay: 0.1s; }
-.masonry-grid_column:nth-child(3) > div { animation-delay: 0.2s; }
-.masonry-grid_column:nth-child(4) > div { animation-delay: 0.3s; }

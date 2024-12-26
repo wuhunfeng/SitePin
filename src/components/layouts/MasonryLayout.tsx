@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Masonry from 'react-masonry-css';
 import { Site } from '@/types/site';
 import { StoredMonitor } from '@/lib/db';
-import { ArrowTopRightOnSquareIcon, ClockIcon } from '@heroicons/react/24/outline';
+import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import MonitorDetailsDialog from '../MonitorDetailsDialog';
 import MonitorStatusDialog from '../MonitorStatusDialog';

@@ -9,7 +9,7 @@ import ListLayout from '@/components/layouts/ListLayout';
 import LayoutSwitcher from '@/components/LayoutSwitcher';
 import MasonryLayout from '@/components/layouts/MasonryLayout';
 import { useLayout } from '@/hooks/useLayout';
-
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Home() {
   const { monitors, loading: monitorsLoading } = useMonitors();
@@ -36,12 +36,25 @@ export default function Home() {
 
   function MonitorCardSkeleton() {
     return (
-      <div className="fluent-card rounded-xl p-6 aspect-square">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="fluent-card rounded-xl p-6 aspect-square"
+      >
         <div className="space-y-4">
-          <div className="h-6 bg-gray-200 rounded w-3/4 animate-pulse" />
-          <div className="relative aspect-[4/3] rounded-xl bg-gray-200 animate-pulse" />
+          <motion.div 
+            className="h-6 bg-gray-200 rounded w-3/4"
+            animate={{ opacity: [0.5, 0.8, 0.5] }}
+            transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+          />
+          <motion.div 
+            className="relative aspect-[4/3] rounded-xl bg-gray-200"
+            animate={{ opacity: [0.5, 0.8, 0.5] }}
+            transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut", delay: 0.2 }}
+          />
         </div>
-      </div>
+      </motion.div>
     );
   }
 
@@ -49,15 +62,34 @@ export default function Home() {
     <main className="min-h-screen bg-gradient-to-br to-indigo-50">
       <div className="subtle-pattern">
         <div className="container mx-auto px-6 py-12">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold bg-clip-text text-transparent 
-              bg-gradient-to-r from-gray-900 to-gray-700 mb-4">
-                SitePin
-            </h1>
-            <p className="text-gray-600 max-w-2xl mx-auto mb-4">
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-12"
+          >
+            <motion.h1 
+              initial={{ scale: 0.9 }}
+              animate={{ scale: 1 }}
+              transition={{ type: "spring", stiffness: 200 }}
+              className="text-4xl font-bold bg-clip-text text-transparent 
+                bg-gradient-to-r from-gray-900 to-gray-700 mb-4"
+            >
+              SitePin
+            </motion.h1>
+            <motion.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="text-gray-600 max-w-2xl mx-auto mb-4"
+            >
               汇集网站，监控状态
-            </p>
-            <div className="flex items-center justify-center gap-4">
+            </motion.p>
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+              className="flex items-center justify-center gap-4"
+            >
               <a
                 href="https://github.com/MindMorbius"
                 target="_blank"
@@ -78,8 +110,8 @@ export default function Home() {
                   <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
                 </svg>
               </a>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {[...Array(8)].map((_, i) => (
@@ -97,15 +129,34 @@ export default function Home() {
     <main className="min-h-screen bg-gradient-to-br to-indigo-50">
       <div className="subtle-pattern">
         <div className="container mx-auto px-6 py-12">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold bg-clip-text text-transparent 
-              bg-gradient-to-r from-gray-900 to-gray-700 mb-4">
-                SitePin
-            </h1>
-            <p className="text-gray-600 max-w-2xl mx-auto mb-4">
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-12"
+          >
+            <motion.h1 
+              initial={{ scale: 0.9 }}
+              animate={{ scale: 1 }}
+              transition={{ type: "spring", stiffness: 200 }}
+              className="text-4xl font-bold bg-clip-text text-transparent 
+                bg-gradient-to-r from-gray-900 to-gray-700 mb-4"
+            >
+              SitePin
+            </motion.h1>
+            <motion.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="text-gray-600 max-w-2xl mx-auto mb-4"
+            >
               汇集网站，监控状态
-            </p>
-            <div className="flex items-center justify-center gap-4">
+            </motion.p>
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+              className="flex items-center justify-center gap-4"
+            >
               <a
                 href="https://github.com/MindMorbius"
                 target="_blank"
@@ -126,8 +177,8 @@ export default function Home() {
                   <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
                 </svg>
               </a>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           <div className="flex justify-between items-center mb-8">
             <div className="flex gap-2 overflow-x-auto pb-2">
@@ -136,9 +187,11 @@ export default function Home() {
                 if (typeSites.length === 0) return null;
                 
                 return (
-                  <button
+                  <motion.button
                     key={type.value}
                     onClick={() => setActiveType(type.value)}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                     className={`px-4 py-2 rounded-lg whitespace-nowrap transition-all
                       backdrop-blur-sm border border-white/20
                       ${activeType === type.value 
@@ -146,7 +199,7 @@ export default function Home() {
                         : 'bg-white/30 text-gray-600 hover:bg-white/50'}`}
                   >
                     {type.label}
-                  </button>
+                  </motion.button>
                 );
               })}
             </div>
@@ -154,17 +207,27 @@ export default function Home() {
             <LayoutSwitcher layout={layout} onChange={setLayout} />
           </div>
 
-          {layout === 'grid' && (
-            <GridLayout sites={filteredSites} monitors={monitors} />
-          )}
-          
-          {layout === 'list' && (
-            <ListLayout sites={filteredSites} monitors={monitors} />
-          )}
-          
-          {layout === 'masonry' && (
-            <MasonryLayout sites={filteredSites} monitors={monitors} />
-          )}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={layout + activeType}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              {layout === 'grid' && (
+                <GridLayout sites={filteredSites} monitors={monitors} />
+              )}
+              
+              {layout === 'list' && (
+                <ListLayout sites={filteredSites} monitors={monitors} />
+              )}
+              
+              {layout === 'masonry' && (
+                <MasonryLayout sites={filteredSites} monitors={monitors} />
+              )}
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
     </main>
