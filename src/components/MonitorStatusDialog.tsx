@@ -1,5 +1,5 @@
 import { Dialog } from './Dialog';
-import { StoredMonitor } from '@/lib/db';
+import { StoredMonitor } from '@/types/site';
 import { 
   XMarkIcon,
   ClockIcon,

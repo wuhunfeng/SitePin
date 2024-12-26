@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
 type UptimeEndpoint = 'getMonitors';
 
@@ -23,47 +23,39 @@ export interface UptimeMonitor {
   friendly_name: string;
   url: string;
   type: number;
-  sub_type: string;
-  keyword_type: string;
-  keyword_case_type: string;
-  keyword_value: string;
-  http_username: string;
-  http_password: string;
-  port: string;
-  interval: number;
   status: number;
   create_datetime: number;
-  monitor_group: number;
-  is_group_main: number;
-  logs: {
-    type: number;
-    datetime: number;
-    duration: number;
-  }[];
+  average_response_time?: number;
+  lastUpdated: number;
+}
+
+async function fetchUptimeRobot<T>(endpoint: UptimeEndpoint): Promise<T> {
+  const response = await fetch(`/api/uptimerobot/${endpoint}`);
+  if (!response.ok) throw new Error('Network response was not ok');
+  const data = await response.json();
+  
+  if (endpoint === 'getMonitors' && data.monitors) {
+    data.monitors = data.monitors.map((monitor: any) => ({
+      id: monitor.id,
+      friendly_name: monitor.friendly_name,
+      url: monitor.url,
+      type: monitor.type,
+      status: monitor.status,
+      create_datetime: monitor.create_datetime,
+      average_response_time: monitor.response_times?.[0]?.value,
+      lastUpdated: monitor.response_times?.[0]?.datetime * 1000 || Date.now()
+    }));
+  }
+  
+  return data;
 }
 
 export function useUptimeRobot<T>(endpoint: UptimeEndpoint) {
-  const [data, setData] = useState<UptimeResponse<T> | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`/api/uptimerobot/${endpoint}`);
-        if (!response.ok) throw new Error('Network response was not ok');
-        const result = await response.json();
-        setData(result);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [endpoint]);
-
-  return { data, error, loading };
+  return useQuery({
+    queryKey: ['uptimerobot', endpoint],
+    queryFn: () => fetchUptimeRobot<UptimeResponse<T>>(endpoint),
+    staleTime: 1000 * 60 * 5, // 5分钟后数据过期
+    gcTime: 1000 * 60 * 10,   // 10分钟后清除缓存
+  });
 }
 

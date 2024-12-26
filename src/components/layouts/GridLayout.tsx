@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Site } from '@/types/site';
-import { StoredMonitor } from '@/lib/db';
+import { StoredMonitor } from '@/types/site';
 import { 
   ArrowTopRightOnSquareIcon, 
   PhotoIcon,

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Masonry from 'react-masonry-css';
 import { Site } from '@/types/site';
-import { StoredMonitor } from '@/lib/db';
+import { StoredMonitor } from '@/types/site';
 import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import MonitorDetailsDialog from '../MonitorDetailsDialog';

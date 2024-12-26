@@ -17,3 +17,14 @@ export interface SiteFormData {
   type: string;
   screenshot: string;
 } 
+
+export interface StoredMonitor {
+  id: number;
+  friendly_name: string;
+  url: string;
+  type: number;
+  status: number;
+  create_datetime: number;
+  average_response_time?: number;
+  lastUpdated: number;
+}
