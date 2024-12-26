@@ -21,17 +21,6 @@ body {
   min-height: 100vh;
 }
 
-/* 优化毛玻璃效果 */
-.glass-effect {
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  background: rgba(255, 255, 255, 0.65);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 
-    0 4px 6px -1px rgba(0, 0, 0, 0.05),
-    0 2px 4px -1px rgba(0, 0, 0, 0.03);
-}
-
 /* 简化纹理背景 */
 .subtle-pattern {
   background-image: 
@@ -40,24 +29,14 @@ body {
   background-size: 24px 24px;
 }
 
-/* 添加 Fluent 卡片样式 */
-.fluent-card {
-  background: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: 
-    0 4px 12px -2px rgba(0, 0, 0, 0.05),
-    0 2px 6px -1px rgba(0, 0, 0, 0.03),
-    inset 0 1px 1px rgba(255, 255, 255, 0.7);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+/* 隐藏滚动条但保持功能 */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-.fluent-card:hover {
-  background: rgba(255, 255, 255, 0.85);
-  box-shadow: 
-    0 8px 24px -4px rgba(0, 0, 0, 0.08),
-    0 4px 12px -2px rgba(0, 0, 0, 0.06),
-    inset 0 1px 1px rgba(255, 255, 255, 0.9);
-  transform: translateY(-2px);
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
 /* 瀑布流布局样式 */
