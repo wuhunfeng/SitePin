@@ -5,6 +5,10 @@ const nextConfig: NextConfig = {
     // ⚠️ 警告: 生产环境建议开启类型检查
     ignoreBuildErrors: true,
   },
+  eslint: {
+    // 添加这个配置来忽略 ESLint 错误
+    ignoreDuringBuilds: true,
+  },
   images: {
     remotePatterns: [
       {

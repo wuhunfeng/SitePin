@@ -9,7 +9,7 @@ import {
   CalendarDateRangeIcon,
 } from '@heroicons/react/24/outline';
 import { formatDistanceToNow } from 'date-fns';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 export default function MonitorStatusDialog({ 
   isOpen, 

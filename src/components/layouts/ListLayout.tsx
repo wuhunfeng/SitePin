@@ -6,6 +6,7 @@ import { StoredMonitor } from '@/lib/db';
 import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 import MonitorDetailsDialog from '../MonitorDetailsDialog';
 import MonitorStatusDialog from '../MonitorStatusDialog';
+import Image from 'next/image';
 
 interface Props {
   sites: Site[];
@@ -33,9 +34,11 @@ export default function ListLayout({ sites, monitors }: Props) {
                 onClick={() => setSelectedSite(site)}
               >
                 {site.screenshot && (
-                  <img 
+                  <Image 
                     src={site.screenshot} 
                     alt={site.name}
+                    width={128}
+                    height={128}
                     className="w-full h-full object-cover"
                   />
                 )}
