@@ -34,11 +34,23 @@ export async function POST(req: Request) {
     const stream = new ReadableStream({
       async start(controller) {
         try {
+          // 使用一个标记来追踪是否有内容发送
+          let hasContent = false;
+          
           for await (const chunk of completion) {
             const content = chunk.choices[0]?.delta?.content;
             if (content) {
-              controller.enqueue(new TextEncoder().encode(content));
+              hasContent = true;
+              const message = `data: ${JSON.stringify(chunk)}\n\n`;
+              controller.enqueue(new TextEncoder().encode(message));
             }
+          }
+
+          // 确保有内容发送后再发送结束标记
+          if (hasContent) {
+            // 添加一个小延迟确保内容被完全处理
+            await new Promise(resolve => setTimeout(resolve, 50));
+            controller.enqueue(new TextEncoder().encode('data: [DONE]\n\n'));
           }
         } catch (error) {
           console.error('Stream error:', error);

@@ -37,8 +37,9 @@ export function RecommendedDialog({ isOpen, onClose, site, onSiteChange }: Props
     `;
     
     const endPrompt = `要求：
-    - 表达专业详实，充斥着冷幽默的气息
-    - 内容控制在300字以内
+    - 观点精准犀利，充斥着冷幽默
+    - 喜欢用名人的口吻来点评
+    - 内容控制在200字以内
     - 直接输出推荐理由，不要输出"xxx的专业推荐""希望我的分析符合您的需求"此类的废话`;
 
     const withScreenshotPrompt = `${basePrompt}

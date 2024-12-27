@@ -43,18 +43,65 @@ class AI {
       const reader = res.body?.getReader();
       const decoder = new TextDecoder();
       let accumulatedText = '';
+      let buffer = '';
 
       while (reader) {
         const { done, value } = await reader.read();
-        
         if (done) {
-          options.onFinish?.();
+          if (buffer) {
+            const line = buffer.trim();
+            if (line.startsWith('data: ')) {
+              const data = line.slice(5).trim();
+              if (data === '[DONE]') {
+                console.log('ai done: ', accumulatedText);
+                options.onFinish?.();
+                return accumulatedText;
+              }
+              try {
+                const parsed = JSON.parse(data);
+                const content = parsed.choices[0]?.delta?.content || '';
+                accumulatedText += content;
+                options.onStream?.(accumulatedText);
+              } catch (e) {
+                console.warn('Failed to parse SSE message:', e);
+              }
+            }
+          }
           break;
         }
 
-        const chunk = decoder.decode(value);
-        accumulatedText += chunk;
-        options.onStream?.(accumulatedText);
+        // 解码新的数据块
+        const chunk = decoder.decode(value, { stream: true });
+        
+        // 将新数据添加到缓冲区
+        buffer += chunk;
+        
+        // 按行分割并处理
+        const lines = buffer.split('\n');
+        // 保留最后一个可能不完整的行
+        buffer = lines.pop() || '';
+
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            const data = line.slice(5).trim();
+            
+            // 检查是否是结束标记
+            if (data === '[DONE]') {
+              console.log('ai done: ', accumulatedText);
+              options.onFinish?.();
+              return accumulatedText;
+            }
+
+            try {
+              const parsed = JSON.parse(data);
+              const content = parsed.choices[0]?.delta?.content || '';
+              accumulatedText += content;
+              options.onStream?.(accumulatedText);
+            } catch (e) {
+              console.warn('Failed to parse SSE message:', e);
+            }
+          }
+        }
       }
 
       return accumulatedText;
