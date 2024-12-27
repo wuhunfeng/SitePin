@@ -1,12 +1,12 @@
 import { Dialog } from './Dialog';
 import { StoredMonitor } from '@/types/site';
 import { 
-  XMarkIcon,
   ClockIcon,
   GlobeAltIcon,
   CalendarIcon,
   CheckCircleIcon,
   CalendarDateRangeIcon,
+  ArrowTopRightOnSquareIcon
 } from '@heroicons/react/24/outline';
 import { formatDistanceToNow } from 'date-fns';
 import { motion } from 'framer-motion';
@@ -20,7 +20,6 @@ export default function MonitorStatusDialog({
   onClose: () => void;
   monitor: StoredMonitor;
 }) {
-
   const getStatusText = (status: number) => {
     switch (status) {
       case 2: return 'Up';
@@ -37,26 +36,13 @@ export default function MonitorStatusDialog({
     }
   };
 
-  const contentVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { 
-        staggerChildren: 0.05,
-        delayChildren: 0.1 
-      }
-    },
-    exit: {
-      opacity: 0,
-      y: -20,
-      transition: { 
-        staggerChildren: 0.03,
-        staggerDirection: -1,
-        when: "afterChildren"
-      }
-    }
-  };
+  const titleContent = (
+    <div className="flex items-center gap-3">
+      <h2 className="text-xl font-semibold text-gray-900">
+        {monitor.friendly_name || "N/A"}
+      </h2>
+    </div>
+  );
 
   const itemVariants = {
     hidden: { opacity: 0, x: -10 },
@@ -71,37 +57,23 @@ export default function MonitorStatusDialog({
       transition: { duration: 0.2 }
     }
   };
-    
+
   return (
-    <Dialog isOpen={isOpen} onClose={onClose}>
+    <Dialog 
+      isOpen={isOpen} 
+      onClose={onClose}
+      title={titleContent}
+    >
       <motion.div
         initial="hidden"
-        animate={isOpen ? "visible" : "exit"}
+        animate="visible"
         exit="exit"
-        variants={contentVariants}
         className="space-y-6"
       >
-        <motion.div 
-          variants={itemVariants}
-          className="flex justify-between items-center"
-        >
-          <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
-            {monitor.friendly_name || "N/A"}
-          </h2>
-          <motion.button 
-            whileHover={{ rotate: 90 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={onClose}
-            className="p-1.5 hover:bg-zinc-100 rounded-full"
-          >
-            <XMarkIcon className="w-5 h-5" />
-          </motion.button>
-        </motion.div>
-
         <div className="space-y-4">
           <motion.div 
             variants={itemVariants}
-            className="flex items-center gap-3"
+            className="flex items-center gap-3 bg-gray-50/50 p-4 rounded-lg"
           >
             <motion.div
               animate={{
@@ -112,7 +84,7 @@ export default function MonitorStatusDialog({
               <CheckCircleIcon className={`w-5 h-5 ${getStatusColor(monitor.status)}`} />
             </motion.div>
             <div>
-              <span className="text-sm font-medium text-gray-700">Status</span>
+              <span className="text-sm font-medium text-gray-700">状态</span>
               <p className={`text-base ${getStatusColor(monitor.status)}`}>
                 {getStatusText(monitor.status)}
               </p>
@@ -121,7 +93,7 @@ export default function MonitorStatusDialog({
 
           <motion.div 
             variants={itemVariants}
-            className="flex items-center gap-3"
+            className="flex items-center gap-3 bg-gray-50/50 p-4 rounded-lg"
           >
             <motion.div
               animate={{
@@ -132,7 +104,7 @@ export default function MonitorStatusDialog({
               <ClockIcon className="w-5 h-5 text-gray-500" />
             </motion.div>
             <div>
-              <span className="text-sm font-medium text-gray-700">Response Time</span>
+              <span className="text-sm font-medium text-gray-700">响应时间</span>
               <p className="text-base text-gray-900">
                 {monitor.average_response_time ? `${monitor.average_response_time}ms` : 'N/A'}
               </p>
@@ -141,7 +113,7 @@ export default function MonitorStatusDialog({
 
           <motion.div 
             variants={itemVariants}
-            className="flex items-center gap-3"
+            className="flex items-center gap-3 bg-gray-50/50 p-4 rounded-lg"
           >
             <motion.div
               whileHover={{ rotate: 360 }}
@@ -151,17 +123,17 @@ export default function MonitorStatusDialog({
             </motion.div>
             <div>
               <span className="text-sm font-medium text-gray-700">URL</span>
-              <p className="text-base text-gray-900">{monitor.url}</p>
+              <p className="text-base text-gray-900 break-all">{monitor.url}</p>
             </div>
           </motion.div>
 
           <motion.div 
             variants={itemVariants}
-            className="flex items-center gap-3"
+            className="flex items-center gap-3 bg-gray-50/50 p-4 rounded-lg"
           >
             <CalendarIcon className="w-5 h-5 text-gray-500" />
             <div>
-              <span className="text-sm font-medium text-gray-700">Created</span>
+              <span className="text-sm font-medium text-gray-700">创建时间</span>
               <p className="text-base text-gray-900">
                 {new Date(monitor.create_datetime * 1000).toLocaleString()}
               </p>
@@ -170,11 +142,11 @@ export default function MonitorStatusDialog({
 
           <motion.div 
             variants={itemVariants}
-            className="flex items-center gap-3"
+            className="flex items-center gap-3 bg-gray-50/50 p-4 rounded-lg"
           >
             <CalendarDateRangeIcon className="w-5 h-5 text-gray-500" />
             <div>
-              <span className="text-sm font-medium text-gray-700">Last Updated</span>
+              <span className="text-sm font-medium text-gray-700">最后更新</span>
               <p className="text-base text-gray-900">
                 {formatDistanceToNow(new Date(monitor.lastUpdated), { addSuffix: true })}
               </p>

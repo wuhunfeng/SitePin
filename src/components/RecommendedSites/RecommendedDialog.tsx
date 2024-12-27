@@ -111,114 +111,111 @@ export function RecommendedDialog({ isOpen, onClose, site, onSiteChange }: Props
 
   return (
     <>
-      <Dialog isOpen={isOpen} onClose={onClose}>
+      <Dialog 
+        isOpen={isOpen} 
+        onClose={onClose}
+        title="AI 智能推荐"
+      >
         <div className="space-y-6">
-          <div className="flex justify-between items-center">
-            <h2 className="text-xl font-semibold text-gray-800">AI 智能推荐</h2>
-          </div>
-          
-          <div className="flex flex-col gap-4">
-            <motion.div 
-              className="relative flex items-center gap-3 bg-gray-50/50 p-3 rounded-lg 
-                border border-gray-100/80 backdrop-blur-sm cursor-pointer
-                hover:bg-gray-100/50 transition-colors group"
-              onClick={() => setShowDetails(true)}
-              whileHover={{ scale: 1.02 }}
-              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+          <motion.div 
+            className="relative flex items-center gap-3 bg-gray-50/50 p-3 rounded-lg 
+              border border-gray-100/80 backdrop-blur-sm cursor-pointer
+              hover:bg-gray-100/50 transition-colors group"
+            onClick={() => setShowDetails(true)}
+            whileHover={{ scale: 1.02 }}
+          >
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="absolute right-2 top-2 text-xs text-gray-400
+                bg-white/80 px-2 py-1 rounded-full border border-gray-100
+                opacity-0 group-hover:opacity-100 transition-opacity"
             >
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="absolute right-2 top-2 text-xs text-gray-400
-                  bg-white/80 px-2 py-1 rounded-full border border-gray-100
-                  opacity-0 group-hover:opacity-100 transition-opacity"
-              >
-                点击查看详情
-              </motion.div>
-
-              <div className="w-16 h-16 bg-gray-100/70 rounded-lg overflow-hidden flex-shrink-0 
-                border border-gray-200/50">
-                {currentSite?.screenshot && (
-                  <motion.img 
-                    src={currentSite.screenshot} 
-                    alt={currentSite.name}
-                    className="w-full h-full object-cover"
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  />
-                )}
-              </div>
-              <div>
-                <h3 className="text-base font-medium text-gray-800">{currentSite?.name}</h3>
-                <p className="text-sm text-gray-600">{currentSite?.url}</p>
-              </div>
-
-              <motion.div
-                className="absolute inset-0 rounded-lg bg-white/20"
-                initial={{ opacity: 0 }}
-                animate={{ 
-                  opacity: [0, 0.1, 0],
-                  scale: [1, 1.02, 1]
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  repeatDelay: 1
-                }}
-              />
+              点击查看详情
             </motion.div>
 
-            <div className="bg-gray-50/30 backdrop-blur-sm rounded-xl p-4 
-              border border-gray-200/30">
-              <div className="flex items-center gap-2 mb-3">
-                <div className="w-5 h-5 rounded-full bg-gray-100/80 
-                  flex items-center justify-center border border-gray-200/50">
-                  <span className="text-gray-700 text-xs">AI</span>
-                </div>
-                <div className="text-sm font-medium text-gray-700">为什么推荐这个网站？</div>
-              </div>
-              <div className="text-sm text-gray-600 leading-relaxed">
-                {isGenerating ? (
-                  <ReactMarkdown className="prose prose-sm max-w-none">
-                    {recommendation}
-                  </ReactMarkdown>
-                ) : (
-                  <button
-                    onClick={() => getRecommendation(currentSite)}
-                    className="px-3 py-1.5 bg-gray-800/90 text-white rounded-lg 
-                      hover:bg-gray-900 transition-colors text-sm shadow-sm"
-                  >
-                    生成推荐理由
-                  </button>
-                )}
-              </div>
+            <div className="w-16 h-16 bg-gray-100/70 rounded-lg overflow-hidden flex-shrink-0 
+              border border-gray-200/50">
+              {currentSite?.screenshot && (
+                <motion.img 
+                  src={currentSite.screenshot} 
+                  alt={currentSite.name}
+                  className="w-full h-full object-cover"
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                />
+              )}
+            </div>
+            <div>
+              <h3 className="text-base font-medium text-gray-800">{currentSite?.name}</h3>
+              <p className="text-sm text-gray-600">{currentSite?.url}</p>
             </div>
 
-            <div className="flex justify-between items-center pt-2">
-              {loading ? (
-                <div className="px-4 py-2 bg-gray-800/90 text-white rounded-lg text-sm shadow-sm backdrop-blur-sm">
-                  正在生成中...
-                </div>
+            <motion.div
+              className="absolute inset-0 rounded-lg bg-white/20"
+              initial={{ opacity: 0 }}
+              animate={{ 
+                opacity: [0, 0.1, 0],
+                scale: [1, 1.02, 1]
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                repeatDelay: 1
+              }}
+            />
+          </motion.div>
+
+          <div className="bg-gray-50/30 backdrop-blur-sm rounded-xl p-4 
+            border border-gray-200/30">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-5 h-5 rounded-full bg-gray-100/80 
+                flex items-center justify-center border border-gray-200/50">
+                <span className="text-gray-700 text-xs">AI</span>
+              </div>
+              <div className="text-sm font-medium text-gray-700">为什么推荐这个网站？</div>
+            </div>
+            <div className="text-sm text-gray-600 leading-relaxed">
+              {isGenerating ? (
+                <ReactMarkdown className="prose prose-sm max-w-none">
+                  {recommendation}
+                </ReactMarkdown>
               ) : (
-                <button 
-                  onClick={getRandomSite}
-                  className="px-4 py-2 bg-gray-800/90 text-white rounded-lg 
-                    hover:bg-gray-900 transition-colors text-sm shadow-sm
-                    backdrop-blur-sm" 
+                <button
+                  onClick={() => getRecommendation(currentSite)}
+                  className="px-3 py-1.5 bg-gray-800/90 text-white rounded-lg 
+                    hover:bg-gray-900 transition-colors text-sm shadow-sm"
                 >
-                  换一个推荐
+                  生成推荐理由
                 </button>
               )}
-              <a 
-                href={currentSite.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-gray-600 hover:text-gray-800 
-                  flex items-center gap-1 transition-colors"
-              >
-                访问网站 →
-              </a>
             </div>
+          </div>
+
+          <div className="flex justify-between items-center">
+            {loading ? (
+              <div className="px-4 py-2 bg-gray-800/90 text-white rounded-lg text-sm shadow-sm backdrop-blur-sm">
+                正在生成中...
+              </div>
+            ) : (
+              <button 
+                onClick={getRandomSite}
+                className="px-4 py-2 bg-gray-800/90 text-white rounded-lg 
+                  hover:bg-gray-900 transition-colors text-sm shadow-sm
+                  backdrop-blur-sm" 
+              >
+                换一个推荐
+              </button>
+            )}
+            <a 
+              href={currentSite.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-gray-600 hover:text-gray-800 
+                flex items-center gap-1 transition-colors"
+            >
+              访问网站 →
+            </a>
           </div>
         </div>
       </Dialog>

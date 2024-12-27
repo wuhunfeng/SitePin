@@ -46,16 +46,15 @@ class AI {
 
       while (reader) {
         const { done, value } = await reader.read();
-        if (done) break;
+        
+        if (done) {
+          options.onFinish?.();
+          break;
+        }
 
         const chunk = decoder.decode(value);
-        if (chunk.includes('[[DONE]]')) {
-          options.onFinish?.();
-          accumulatedText = accumulatedText.replace('[[DONE]]', '');
-        } else {
-          accumulatedText += chunk;
-          options.onStream?.(accumulatedText);
-        }
+        accumulatedText += chunk;
+        options.onStream?.(accumulatedText);
       }
 
       return accumulatedText;

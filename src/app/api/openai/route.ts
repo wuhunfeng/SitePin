@@ -43,8 +43,6 @@ export async function POST(req: Request) {
         } catch (error) {
           console.error('Stream error:', error);
         } finally {
-          // 发送一个特殊标记表示流结束
-          controller.enqueue(new TextEncoder().encode('[[DONE]]'));
           controller.close();
         }
       }

@@ -36,38 +36,34 @@ export default function MonitorDetailsDialog({ isOpen, onClose, site }: {
     exit: { opacity: 0, y: -10 }
   };
 
+  const titleContent = (
+    <div className="flex items-center gap-3">
+      <h2 className="text-xl font-semibold text-gray-900">{site.name}</h2>
+      <motion.a
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+        href={site.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="p-1.5 hover:bg-zinc-100 rounded-full"
+      >
+        <ArrowTopRightOnSquareIcon className="w-5 h-5 text-gray-500" />
+      </motion.a>
+    </div>
+  );
+
   return (
-    <Dialog isOpen={isOpen} onClose={onClose}>
+    <Dialog 
+      isOpen={isOpen} 
+      onClose={onClose}
+      title={titleContent}
+    >
       <motion.div
         initial="hidden"
         animate={isOpen ? "visible" : "exit"}
         exit="exit"
         variants={contentVariants}
       >
-        <motion.div variants={itemVariants} className="flex justify-between items-center mb-6">
-          <div className="flex items-center gap-3">
-            <h2 className="text-xl font-semibold text-gray-900">{site.name}</h2>
-            <motion.a
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              href={site.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-1.5 hover:bg-zinc-100 rounded-full"
-            >
-              <ArrowTopRightOnSquareIcon className="w-5 h-5 text-gray-500" />
-            </motion.a>
-          </div>
-          <motion.button 
-            whileHover={{ rotate: 90 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={onClose}
-            className="p-1.5 hover:bg-zinc-100 rounded-full"
-          >
-            <XMarkIcon className="w-5 h-5" />
-          </motion.button>
-        </motion.div>
-        
         <div className="space-y-8">
           <motion.div variants={itemVariants}>
             <h3 className="text-base font-semibold text-gray-800 mb-3">网站截图</h3>
@@ -81,7 +77,6 @@ export default function MonitorDetailsDialog({ isOpen, onClose, site }: {
                   alt={site.name}
                   width={1920}
                   height={1080}
-                  // loading="lazy"
                   placeholder="blur"
                   blurDataURL={site.screenshot}
                   className="max-w-full h-auto cursor-zoom-in"
@@ -151,7 +146,9 @@ export default function MonitorDetailsDialog({ isOpen, onClose, site }: {
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-sm font-medium text-gray-600">类型</span>
-                <span className="text-gray-900">{SITE_TYPES.find(type => type.value === site.type)?.label || '未知'}</span>
+                <span className="text-gray-900">
+                  {SITE_TYPES.find(type => type.value === site.type)?.label || '未知'}
+                </span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-sm font-medium text-gray-600">标签</span>
@@ -159,7 +156,9 @@ export default function MonitorDetailsDialog({ isOpen, onClose, site }: {
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-sm font-medium text-gray-600">创建时间</span>
-                <span className="text-gray-900">{new Date(site.createdAt).toLocaleString()}</span>
+                <span className="text-gray-900">
+                  {new Date(site.createdAt).toLocaleString()}
+                </span>
               </div>
             </motion.div>
           </motion.div>
