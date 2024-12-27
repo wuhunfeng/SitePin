@@ -6,6 +6,13 @@ import { Site } from '@/types/site';
 import { useLayout } from '@/hooks/useLayout';
 import { motion } from 'framer-motion';
 import FilteredSites from '@/components/FilteredSites';
+import { SITE_TYPES } from '@/constants/site';
+import GridLayout from '@/components/layouts/GridLayout';
+import ListLayout from '@/components/layouts/ListLayout';
+import MasonryLayout from '@/components/layouts/MasonryLayout';
+import LayoutSwitcher from '@/components/LayoutSwitcher';
+import RecommendedSites from '@/components/RecommendedSites';
+import { useSites } from '@/hooks/useSites';
 
 function Header() {
   return (
@@ -63,26 +70,16 @@ function Header() {
 }
 
 export default function Home() {
+  const { sites, loading: sitesLoading } = useSites();
   const { monitors, loading: monitorsLoading } = useMonitors();
-  const [sites, setSites] = useState<Site[]>([]);
-  const [loading, setLoading] = useState(true);
   const [layout, setLayout] = useLayout();
+  const [filteredSites, setFilteredSites] = useState<Site[]>([]);
 
   useEffect(() => {
-    const fetchSites = async () => {
-      try {
-        const res = await fetch('/api/sites');
-        const data = await res.json();
-        setSites(data);
-      } catch (error) {
-        console.error('Failed to fetch sites:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchSites();
-  }, []);
+    if (sites.length > 0) {
+      setFilteredSites(sites.filter(site => site.type === SITE_TYPES[0].value));
+    }
+  }, [sites]);
 
   function MonitorCardSkeleton() {
     return (
@@ -108,7 +105,7 @@ export default function Home() {
     );
   }
 
-  if (loading || monitorsLoading) return (
+  if (sitesLoading || monitorsLoading) return (
     <main className="min-h-screen bg-gradient-to-br to-indigo-50">
       <div className="subtle-pattern">
         <div className="container mx-auto px-6 py-12">
@@ -126,14 +123,36 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-gradient-to-br to-indigo-50">
       <div className="subtle-pattern">
+        <RecommendedSites />
+        
         <div className="container mx-auto px-6 py-12">
           <Header />
-          <FilteredSites 
-            sites={sites}
-            monitors={monitors}
-            layout={layout}
-            setLayout={setLayout}
-          />
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+            <FilteredSites 
+              sites={sites}
+              onSitesFiltered={setFilteredSites}
+            />
+            <LayoutSwitcher layout={layout} onChange={setLayout} />
+          </div>
+
+          <motion.div
+            key={layout}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+            className="min-h-[200px]"
+          >
+            {layout === 'grid' && (
+              <GridLayout sites={filteredSites} monitors={monitors} />
+            )}
+            {layout === 'list' && (
+              <ListLayout sites={filteredSites} monitors={monitors} />
+            )}
+            {layout === 'masonry' && (
+              <MasonryLayout sites={filteredSites} monitors={monitors} />
+            )}
+          </motion.div>
         </div>
       </div>
     </main>

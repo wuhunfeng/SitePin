@@ -2,11 +2,19 @@ import { NextResponse } from 'next/server';
 import { MongoClient } from 'mongodb';
 
 const uri = process.env.MONGODB_URI!;
-const client = new MongoClient(uri);
+let client: MongoClient | null = null;
+
+async function getClient() {
+  if (!client) {
+    client = new MongoClient(uri);
+    await client.connect();
+  }
+  return client;
+}
 
 export async function GET() {
   try {
-    await client.connect();
+    const client = await getClient();
     const db = client.db('sitepin');
     const sites = await db.collection('sites').find().toArray();
     
@@ -17,8 +25,6 @@ export async function GET() {
       { error: 'Failed to fetch sites' },
       { status: 500 }
     );
-  } finally {
-    await client.close();
   }
 }
 

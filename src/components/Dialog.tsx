@@ -44,7 +44,7 @@ export function Dialog({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="fixed inset-0 bg-black/20 backdrop-blur-lg flex items-center justify-center z-50 overscroll-none touch-none"
+          className="fixed inset-0 bg-black/20 backdrop-blur-lg flex items-center justify-center z-50"
           onClick={handleClose}
         >
           <motion.div 
@@ -64,10 +64,13 @@ export function Dialog({
               ease: [0.32, 0.72, 0, 1]
             }}
             className="bg-white/80 backdrop-blur-xl border border-white/20 rounded-xl 
-              p-8 max-w-lg w-full mx-4 shadow-xl overscroll-none touch-none"
+              p-4 sm:p-8 w-[90vw] sm:w-[80vw] max-w-lg mx-4 shadow-xl overscroll-none touch-none
+              max-h-[80vh] sm:max-h-[80vh] relative"
             onClick={e => e.stopPropagation()}
           >
-            {children}
+            <div className="overflow-y-auto max-h-[calc(80vh-2rem)] sm:max-h-[calc(80vh-4rem)]">
+              {children}
+            </div>
           </motion.div>
         </motion.div>
       )}

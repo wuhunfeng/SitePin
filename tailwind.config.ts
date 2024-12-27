@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
 import animate from "tailwindcss-animate";
+import typography from "@tailwindcss/typography";
 
 export default {
   content: [
@@ -12,8 +13,33 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-      }
+      },
+      typography: {
+        DEFAULT: {
+          css: {
+            maxWidth: 'none',
+            color: 'inherit',
+            p: {
+              marginTop: '0.5em',
+              marginBottom: '0.5em',
+            },
+            a: {
+              color: 'var(--foreground)',
+              textDecoration: 'underline',
+              '&:hover': {
+                opacity: 0.8,
+              },
+            },
+            'ul,ol': {
+              paddingLeft: '1.25em',
+            },
+          },
+        },
+      },
     },
   },
-  plugins: [animate],
+  plugins: [
+    typography,
+    animate
+  ],
 } satisfies Config;

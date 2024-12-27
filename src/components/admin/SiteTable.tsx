@@ -1,9 +1,8 @@
 'use client'
-
-import { useState, useEffect } from 'react';
 import { TrashIcon, PencilIcon } from '@heroicons/react/24/outline';
 import { SITE_TYPES } from '@/constants/site';
 import { Site } from '@/types/site';
+import { useSites } from '@/hooks/useSites';
 
 
 interface Props {
@@ -11,24 +10,7 @@ interface Props {
 }
 
 export default function SiteTable({ onEdit }: Props) {
-  const [sites, setSites] = useState<Site[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchSites();
-  }, []);
-
-  const fetchSites = async () => {
-    try {
-      const res = await fetch('/api/sites');
-      const data = await res.json();
-      setSites(data);
-    } catch (error) {
-      console.error('Failed to fetch sites:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { sites, loading, refetch } = useSites();
 
   const handleDelete = async (id: string) => {
     if (!confirm('确定要删除这个网站吗?')) return;
@@ -38,7 +20,7 @@ export default function SiteTable({ onEdit }: Props) {
         method: 'DELETE',
       });
       if (res.ok) {
-        setSites(sites.filter(site => site._id !== id));
+        refetch();
       }
     } catch (error) {
       console.error('Failed to delete site:', error);

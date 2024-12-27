@@ -19,11 +19,12 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "SitePin | 站集",
-  description: "一个优雅的网站导航工具，以卡片形式展示收藏的网站，并实时显示站点状态",
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-  },
+  description: "一个优雅的网站导航工具，多种布局展示收藏的网站，并实时显示站点状态，提供AI智能推荐",
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
   themeColor: '#ffffff',
 };
 
