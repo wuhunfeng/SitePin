@@ -28,3 +28,15 @@ export interface StoredMonitor {
   average_response_time?: number;
   lastUpdated: number;
 }
+
+export interface Bookmark {
+  name: string;
+  url: string;
+  domain?: string;
+  description?: string;
+  tags: string[];
+  type: string;
+  addedAt: number;
+  screenshot?: string;
+  icon?: string;
+}

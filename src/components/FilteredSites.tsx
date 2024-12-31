@@ -13,13 +13,23 @@ export default function FilteredSites({ sites, onSitesFiltered }: Props) {
 
   const handleTypeChange = (type: string) => {
     setActiveType(type);
-    onSitesFiltered(sites.filter(site => site.type === type));
+    onSitesFiltered(sites.filter(site => {
+      if (!SITE_TYPES.find(t => t.value === site.type)) {
+        return type === 'other';
+      }
+      return site.type === type;
+    }));
   };
 
   return (
     <div className="flex overflow-x-auto pb-2 scrollbar-hide mb-8">
       {SITE_TYPES.map(type => {
-        const typeSites = sites.filter(site => site.type === type.value);
+        const typeSites = sites.filter(site => {
+          if (!SITE_TYPES.find(t => t.value === site.type)) {
+            return type.value === 'other';
+          }
+          return site.type === type.value;
+        });
         if (typeSites.length === 0) return null;
         
         return (
